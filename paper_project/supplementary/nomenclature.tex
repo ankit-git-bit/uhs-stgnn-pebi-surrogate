@@ -1,0 +1,30 @@
+\section{Nomenclature}
+\label{sec:nomenclature}
+
+Below is a summary of the physical, geological, and mathematical notations used in this manuscript:
+
+\begin{description}
+    \item[$A_{ij}$] Contact interface area between grid cells $i$ and $j$, $\text{m}^2$
+    \item[$B_\beta$] Formation volume factor of fluid phase $\beta$, $\text{m}^3/\text{m}^3$
+    \item[$c_t$] Total compressibility of the rock-fluid system, $\text{bar}^{-1}$
+    \item[$d_i, d_j$] Distances from cell centroids to the shared interface face, $\text{m}$
+    \item[$d_{ij}$] Euclidean distance between centroids of cells $i$ and $j$, $\text{m}$
+    \item[$d_h$] Hidden features dimension of GNN layers and GRU
+    \item[$E$] Set of edges representing face-adjacent grid cell connections
+    \item[$g$] Gravitational acceleration, $9.80665$~$\text{m}/\text{s}^2$
+    \item[$\mathbf{h}_i^{(l)}$] Node feature vector for cell $i$ at GNN layer $l$
+    \item[$\mathbf{e}_{ij}$] Edge feature vector between cells $i$ and $j$
+    \item[$\mathbf{k}$] Absolute permeability tensor, mD
+    \item[$k_i$] Absolute permeability of cell $i$, mD
+    \item[$k_{r\beta}$] Relative permeability of fluid phase $\beta$, dimensionless
+    \item[$P$] Fluid phase pressure, bar
+    \item[$q_\beta$] Volumetric flow source/sink rate of phase $\beta$, $\text{m}^3/\text{d}$
+    \item[$S_\beta$] Saturation of fluid phase $\beta$, fraction
+    \item[$t$] Timestep, days
+    \item[$T_{ij}$] Two-point transmissibility between cells $i$ and $j$, $\text{mD}\cdot\text{m}/\text{cp}$
+    \item[$V_i$] Volume of reservoir control cell $i$, $\text{m}^3$
+    \item[$V$] Set of nodes representing reservoir grid cells
+    \item[$\phi$] Rock porosity, fraction
+    \item[$\mu_\beta$] Dynamic viscosity of phase $\beta$, cp
+    \item[$\rho_\beta$] Density of phase $\beta$, $\text{kg}/\text{m}^3$
+\end{description}

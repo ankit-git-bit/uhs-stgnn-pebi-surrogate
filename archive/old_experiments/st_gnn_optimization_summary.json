@@ -1,0 +1,81 @@
+{
+  "optimal_config": {
+    "inj_bhp": 160.0,
+    "prod_bhp": 120.0,
+    "max_efficiency": 9.320969006564335
+  },
+  "all_sweeps": [
+    {
+      "inj_bhp": 160.0,
+      "prod_bhp": 80.0,
+      "total_injected": 401041.52168273926,
+      "total_produced": 0.0,
+      "efficiency": 0.0,
+      "final_inventory": -68.35270690917969
+    },
+    {
+      "inj_bhp": 160.0,
+      "prod_bhp": 100.0,
+      "total_injected": 401041.5234375,
+      "total_produced": 0.0,
+      "efficiency": 0.0,
+      "final_inventory": -62.08885192871094
+    },
+    {
+      "inj_bhp": 160.0,
+      "prod_bhp": 120.0,
+      "total_injected": 401041.5197753906,
+      "total_produced": 3738095.576171875,
+      "efficiency": 9.320969006564335,
+      "final_inventory": 302874.5
+    },
+    {
+      "inj_bhp": 180.0,
+      "prod_bhp": 80.0,
+      "total_injected": 430001.06884002686,
+      "total_produced": 0.0,
+      "efficiency": 0.0,
+      "final_inventory": -68.3195571899414
+    },
+    {
+      "inj_bhp": 180.0,
+      "prod_bhp": 100.0,
+      "total_injected": 430001.0694503784,
+      "total_produced": 0.0,
+      "efficiency": 0.0,
+      "final_inventory": -62.055702209472656
+    },
+    {
+      "inj_bhp": 180.0,
+      "prod_bhp": 120.0,
+      "total_injected": 430001.07009887695,
+      "total_produced": 3738095.8203125,
+      "efficiency": 8.693224459773878,
+      "final_inventory": 302874.53125
+    },
+    {
+      "inj_bhp": 200.0,
+      "prod_bhp": 80.0,
+      "total_injected": 457222.08126068115,
+      "total_produced": 0.0,
+      "efficiency": 0.0,
+      "final_inventory": -68.28347778320312
+    },
+    {
+      "inj_bhp": 200.0,
+      "prod_bhp": 100.0,
+      "total_injected": 457222.0806503296,
+      "total_produced": 0.0,
+      "efficiency": 0.0,
+      "final_inventory": -62.019622802734375
+    },
+    {
+      "inj_bhp": 200.0,
+      "prod_bhp": 120.0,
+      "total_injected": 457222.08126068115,
+      "total_produced": 3738095.80078125,
+      "efficiency": 8.175667698450475,
+      "final_inventory": 302874.59375
+    }
+  ]
+}

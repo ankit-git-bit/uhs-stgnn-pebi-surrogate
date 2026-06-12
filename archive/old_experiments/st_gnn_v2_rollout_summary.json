@@ -1,0 +1,27 @@
+{
+  "model": "ST-GNN v2",
+  "case": "Case_0005_wj.mat",
+  "rollout_steps": 142,
+  "mean_pressure_rmse": 31.72389386846146,
+  "final_pressure_rmse": 33.670196533203125,
+  "mean_saturation_rmse": 0.022283292995293587,
+  "final_saturation_rmse": 0.02983725443482399,
+  "max_pressure_error": 240.642822265625,
+  "max_saturation_error": 0.4040934145450592,
+  "comparison": {
+    "v1": {
+      "mean_pressure_rmse": 35.26377756977585,
+      "final_pressure_rmse": 49.245506286621094,
+      "mean_saturation_rmse": 0.016716510000061507
+    },
+    "v2": {
+      "mean_pressure_rmse": 31.72389386846146,
+      "final_pressure_rmse": 33.670196533203125,
+      "mean_saturation_rmse": 0.022283292995293587
+    },
+    "improvement_percent": {
+      "mean_pressure_rmse": 10.038299766127093,
+      "final_pressure_rmse": 31.627880243053635
+    }
+  }
+}

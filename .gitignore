@@ -1,0 +1,30 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Caches
+.cache/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Virtual Environments
+.venv/
+venv/
+env/
+ENV/
+
+# Large Datasets (Simulation cases and large preprocessed arrays)
+*.mat
+data/raw/*.mat
+data/processed/pressure_surrogate_dataset.npz
+
+# Logs and temporary files
+*.log
+temp/
+tmp/
+tmp_reproduction_check/
+
+# OS files
+.DS_Store
+Thumbs.db

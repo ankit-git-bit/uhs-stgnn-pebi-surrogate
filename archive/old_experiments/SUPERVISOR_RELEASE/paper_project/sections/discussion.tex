@@ -1,0 +1,82 @@
+\section{Discussion}
+The development and evaluation of machine learning surrogates for UHS pressure emulation on 10,116-cell PEBI meshes reveal key physical and methodological insights regarding error propagation and spatial representations.
+
+\subsection{The Deceptive Nature of Direct Pressure Prediction}
+The comparison between absolute pressure prediction ($P_{t+1}$) and pressure-change prediction ($\Delta P$) highlights a major pitfall in SciML evaluations. When evaluating direct pressure prediction, all models achieve an $R^2 > 0.99$, with the MLP reaching $R^2 = 0.9955$ and OLS reaching $R^2 = 0.9952$. However, this performance is almost entirely driven by temporal autocorrelation. The performance of the baseline Persistence model ($R^2 = 0.9931$, RMSE = 4.22~bar), which simply copies the current state, confirms that direct pressure metrics are dominated by a high performance floor that masks model capability.
+
+By contrast, reformulating the target as the pressure change ($\Delta P$) removes this floor. The Persistence model ($\Delta P = 0$) yields an $R^2 = -0.0198$, and the OLS model drops to $R^2 = 0.0007$ (RMSE = 4.18~bar). The MLP achieves an $R^2 = 0.3524$ (RMSE = 3.36~bar). Quantitatively, the drop in MLP performance from $R^2 = 0.9955$ (absolute pressure) to $R^2 = 0.3524$ (pressure-change target) shows that predicting pressure changes is a far more rigorous target that forces models to approximate physical derivatives rather than copying the input state. Consequently, reporting metrics on pressure-change targets is necessary to expose true predictive capability in cyclic reservoir emulation.
+
+\subsection{Physical Implications of Temporal Dominance}
+The feature importance analysis reveals that temporal history features dominate the predictive signal. In the spatiotemporal Random Forest model, the one-step pressure lag $\Delta P_{t-1}$ explains 64.65\% of the Gini importance, and the time elapsed since the last injection start explains 24.58\%. Quantitatively, the combined importance of these two temporal features accounts for 89.23\% of total Gini importance, leaving all spatial geometry and static rock properties to account for less than 2\% combined.
+
+The observed trend of temporal dominance is consistent with transient pressure diffusion in porous media, which exhibits strong temporal inertia. Following a step change in well operating BHP, the pressure disturbance propagates and decays approximately exponentially, governed by the hydraulic diffusivity $\phi c_t / k$. The previous pressure change $\Delta P_{t-1}$ acts as a local proxy for the spatial pressure gradient and diffusivity, allowing the local model to capture the transient decay rate without direct spatial connectivity. The elapsed-time feature captures the reservoir's position within the cyclic operating schedule, resolving ambiguities between injection and production cycles.
+
+\subsection{Geometric Compatibility of Graph Representations}
+Quantitatively, the failure of structured-grid spatial features (retaining 0.0\% importance and yielding baseline-equivalent performance, as shown in Table~\ref{tab:feature_results}) is caused by the geometric incompatibility of irregular PEBI meshes with Cartesian tensor grids. Structured convolutional architectures (CNNs, ConvLSTMs, FNOs) require uniform, grid-like spatial arrangements. Projecting the 10,116-cell PEBI mesh onto structured Cartesian grids introduces significant truncation errors near the wellbores where the pressure gradients are steepest. 
+
+Quantitatively, reconstructing the pressure snapshot from structured grids yields an RMSE of 11.42~bar for a $64 \times 32$ grid, 9.24~bar for a $128 \times 64$ grid, and 8.59~bar for a $256 \times 128$ grid. Attempting to process the PEBI cells directly in a structured array leads to silent factorization errors, where spatial gradients evaluate to zero because the irregular cells cannot be reshaped. Graph representations resolve these geometric limitations by operating on the exact mesh adjacency graph, mapping physical fluid transmissibilities ($T_{ij}$) to edge weights, which mirrors the Finite Volume Method stencil without spatial interpolation errors.
+
+\subsection{One-Step Prediction versus Autoregressive Rollout Dynamics}
+An apparent contradiction in our results is that the spatiotemporal Random Forest model achieves an $R^2 = 0.9827$ and an RMSE of 0.5487~bar, which is significantly better than the GNN rollout results (ST-GNN v3 mean RMSE of 27.15~bar and final-step RMSE of 31.66~bar). It is critical to clarify that these metrics are not directly comparable due to their evaluation protocols:
+\begin{itemize}
+    \item \textbf{One-Step Teacher-Forcing}: The Random Forest model is evaluated in a one-step-ahead prediction mode under teacher forcing. At every timestep, the model is provided with the true, uncorrupted pressure state ($P_i(t)$) and historical lags ($\Delta P_i(t-1)$, $\Delta P_i(t-2)$) to predict the next increment.
+    \item \textbf{Autoregressive Rollout}: The ST-GNN is evaluated in a fully autoregressive mode over a 142-step forecasting horizon. The GNN is initialized with ground-truth states for the first three timesteps and must then predict the entire subsequent trajectory by recursively feeding its own predictions back as inputs.
+\end{itemize}
+
+Rollout evaluation is significantly more challenging because prediction errors accumulate at each step. Small errors in predicted pressure and saturation alter the input distribution for subsequent steps, leading to rapid covariate shift and error propagation. Quantitatively, the error increase from 0.5487~bar (one-step Random Forest) to 27.15~bar (GNN rollout) highlights that while one-step-ahead metrics are useful for feature selection, they do not reflect the model's capability to perform stable, long-horizon emulations. The Random Forest result ($R^2 = 0.9827$, $\text{RMSE} = 0.5487$ bar) corresponds to a one-step teacher-forced prediction task and should not be interpreted as long-horizon forecasting performance.
+
+\subsection{Relevance of Operator Learning Frameworks}
+In recent Scientific Machine Learning literature, operator learning methods such as the Fourier Neural Operator (FNO)~\cite{li2020fno} and DeepONet~\cite{lu2021deeponet} have emerged as powerful alternatives to GNNs. These architectures learn mappings between function spaces, allowing zero-shot super-resolution and mesh-independent predictions. However, these frameworks were not implemented in the present study.
+
+PEBI and Voronoi meshes, which are standard in reservoir simulation, are highly unstructured and conform to irregular geological boundaries. Applying FNO to PEBI meshes requires non-trivial mesh parameterization or conformal mapping to project the irregular domains onto a uniform grid where the Fast Fourier Transform (FFT) can be computed. While recent graph-based neural operators and coordinate-based networks address some of these limitations, they introduce significant implementation and computational complexity. Because operator-learning methods were not implemented in this work, no comparative performance conclusions against these frameworks can be drawn. We present our graph-based approach as a native alternative for irregular meshes that avoids grid projection entirely.
+
+\subsection{Pressure Diffusion Timescale Interpretation}
+To physically interpret why the single-step temporal pressure change lag $\Delta P_{t-1}$ dominates the predictions (retaining 64.65\% Gini importance) and why rock properties like permeability and boundary geometry appear secondary (each under 2\% importance), we analyze the characteristic timescale of pressure diffusion in porous media. The characteristic pressure diffusion time $t_D$ across a grid block of length scale $L$ is defined as:
+\begin{equation}
+t_D \approx \frac{L^2 \phi c_t \mu}{k}
+\label{eq:diffusion_time}
+\end{equation}
+where $\phi$ is rock porosity, $c_t$ is total reservoir compressibility, $\mu$ is fluid viscosity, and $k$ is absolute permeability. 
+
+For typical depleted gas reservoirs undergoing cyclic hydrogen storage, the hydraulic diffusivity constant $\eta = k / (\phi c_t \mu)$ is relatively small, meaning pressure disturbances propagate slowly. At a reporting timestep of $\Delta t = 5$ days, the pressure diffusion length scale is smaller than the reservoir-wide boundary spacing. Consequently, the pressure change $\Delta P_t$ at any grid cell is highly localized and strongly autocorrelated with the pressure change in the immediate past step $\Delta P_{t-1}$. The lag $\Delta P_{t-1}$ acts as a local proxy for the pressure gradient $\nabla P$ and diffusivity $\eta$, allowing the local cell-wise models to capture transient storage dynamics and pressure decay without requiring explicit spatial features. This explains why temporal memory (lag $\Delta P_{t-1}$ at 64.65\% and elapsed time since injection at 24.58\%, totaling 89.23\%) carries the vast majority of predictive importance, rendering static properties secondary in the short-term local regression.
+
+\subsection{Error Accumulation Mechanism}
+An essential challenge in deploying data-driven emulators for multi-year reservoir rollouts is the rapid accumulation of errors under autoregressive evaluation. In one-step-ahead teacher-forced training, the model is always fed the true state from the simulator. However, in rollout forecasting, the model must feed its own state predictions recursively back as inputs. This introduces a recursive feedback loop that leads to covariate shift—where the model's inputs deviate from the training distribution, causing errors to grow.
+
+Quantitatively, the ST-GNN v3 rollout error exhibits a sharp propagation: at step 1, the pressure RMSE is only 0.10~bar, which increases to 2.24~bar at step 10, and reaches a peak of 72.45~bar at step 50 before partially recovering and settling to 31.66~bar at the final step (step 146). The peak error at step 50 coincides with the transition from the active injection phase to the shut-in period. During these sharp operational changes, the model faces highly transient boundaries where errors accumulate rapidly. This error propagation highlights why rollout forecasting is significantly more challenging than one-step-ahead prediction, and why simple one-step evaluation metrics are insufficient to validate surrogate stability.
+
+\subsection{Impact of Well-Control Transitions on Rollout Error}
+The temporal evolution of GNN rollout errors is directly driven by well-control transitions that impose highly transient pressure gradients on the reservoir. Quantitatively, we observe key transition responses:
+\begin{itemize}
+    \item \textbf{Injection-to-Shut-In Transition (Step 30)}: When the injector well is shut in at step 30, the rapid local BHP drop triggers a transient pressure redistribution across the reservoir. In ST-GNN v3, the rollout pressure RMSE rises sharply from 2.24~bar at step 10 to a peak of 72.45~bar at step 50 (within the shut-in and production start phases), representing a major error accumulation triggered by the boundary change.
+    \item \textbf{Production Start and Transitions (Steps 43, 73, 116)}: The activation of the production well at step 43 and the subsequent flow rate changes introduce localized pressure sinks. The recursive feedback loop struggles to track the steep hydraulic gradients near active wellbore nodes, causing spatial error accumulation.
+    \item \textbf{Rollout Stabilization (Steps 120--146)}: Following the final shut-in and production cycles, the transient pressure waves decay. Under these quasi-steady flow conditions, the GNN rollout error stabilizes, settling to 31.66~bar (ST-GNN v3) and 33.67~bar (ST-GNN v2) at step 146. This stabilization indicates that the graph convolution architecture bounds long-horizon error growth once transient operational shocks subside.
+\end{itemize}
+
+\subsection{Implications for Reservoir Digital Twins}
+The quantitative rollout results have direct implications for the practical investigation of reservoir digital twins. The ST-GNN v3 model's ability to emulate the spatial pressure profile in fractions of a second (compared to hours for full physics simulators) makes it a valuable case-specific proof-of-concept surrogate for rapid screening of diverse cyclic operating schedules, scenario ranking, and preliminary parameter exploration.
+
+However, because the rollout error peaks at 72.45~bar (step 50) and has a final-step RMSE of 31.66~bar, the current model is not suitable for safety-critical reservoir operations. Evaluating whether local wellbore pressures exceed caprock fracturing limits requires high precision; a peak error of 72.45~bar could result in false safety assurances, risking geomechanical damage. Accurate real-time control requires sub-bar precision, which the GNN cannot guarantee over long rollouts without physical constraints. Thus, while the graph-based surrogate is promising for screening, it must be paired with numerical simulators for safety-critical validation.
+
+\subsection{Literature Comparison of Reservoir Surrogates}
+To place the current spatio-temporal GNN in context, Table~\ref{tab:lit_comparison} compares representative reservoir surrogate studies from the literature across methodologies, grid types, training data scale, and error metrics.
+
+\begin{table*}[htbp]
+\centering
+\caption{Comparison of Representative Reservoir Surrogate Studies in the Literature}
+\label{tab:lit_comparison}
+\begin{tabularx}{\textwidth}{lXXXXXX}
+\toprule
+\textbf{Study} & \textbf{Method} & \textbf{Grid Type} & \textbf{Training Cases} & \textbf{Physics} & \textbf{Forecast Horizon} & \textbf{Reported Error} \\
+\midrule
+Farchi et al.~\cite{farchi2021} & FCN / Conv-LSTM & Structured (Cartesian Grid) & 100 cases & Single-phase flow & 20 steps & RMSE $\sim$ 2.5\% -- 5.0\% \\
+Li et al. (FNO)~\cite{li2020fno} & Fourier Neural Operator & Structured (Uniform Grid) & 1000 cases & 2D Darcy Flow & 100 steps & Rel. $L_2$ error $\sim$ 1\% -- 5\% \\
+Lu et al. (DeepONet)~\cite{lu2021deeponet} & Deep Operator Network & Continuous Coordinates & 500 cases & 1D/2D PDEs & 50 steps & Rel. $L_2$ error $\sim$ 1.5\% -- 6\% \\
+Raissi et al. (PINN)~\cite{raissi2019pinn} & Physics-Informed NN & Mesh-Free (Collocation) & Scenario-based & Navier-Stokes / Darcy & 1 step & Rel. $L_2$ error $\sim$ 0.5\% -- 3\% \\
+ST-GNN (This Work) & Spatio-Temporal GNN & Unstructured PEBI & 5 cases & Two-Phase UHS & 142 steps & P-RMSE: 27.15~bar (Mean) \\
+\bottomrule
+\end{tabularx}
+\begin{flushleft}
+\small \textit{Note: No direct quantitative comparison is possible because datasets, physics, and evaluation protocols differ.}
+\end{flushleft}
+\end{table*}

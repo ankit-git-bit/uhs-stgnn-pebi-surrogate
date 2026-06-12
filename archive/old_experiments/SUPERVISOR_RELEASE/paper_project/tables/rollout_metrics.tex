@@ -1,0 +1,20 @@
+\begin{table}[h]
+\centering
+\caption{Multi-Step Autoregressive Rollout RMSE Details on Test Case 5}
+\label{tab:rollout_metrics}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Model \& State Variable} & \textbf{t = 1 step} & \textbf{t = 10 steps} & \textbf{t = 50 steps} & \textbf{t = 146 steps (Final)} \\
+\midrule
+\textbf{Pressure RMSE (bar)} \\
+ST-GNN v1 (12 epochs) & 0.3568 & 4.5491 & 75.5759 & 49.2455 \\
+ST-GNN v2 (30 epochs) & \textbf{0.1900} & \textbf{1.8337} & \textbf{59.1941} & \textbf{33.6702} \\
+ST-GNN v3 (20-ep sweep winner) & 0.2205 & 2.1105 & 48.6012 & 38.6918 \\
+\midrule
+\textbf{Saturation RMSE ($S_g$)} \\
+ST-GNN v1 (12 epochs) & 0.003025 & 0.012442 & \textbf{0.025100} & \textbf{0.016476} \\
+ST-GNN v2 (30 epochs) & \textbf{0.001621} & \textbf{0.006212} & 0.030784 & 0.029837 \\
+ST-GNN v3 (20-ep sweep winner) & 0.001850 & 0.007120 & 0.028500 & 0.029570 \\
+\bottomrule
+\end{tabular}
+\end{table}

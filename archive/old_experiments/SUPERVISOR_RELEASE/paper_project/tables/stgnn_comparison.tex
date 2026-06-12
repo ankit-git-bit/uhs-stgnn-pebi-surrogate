@@ -1,0 +1,14 @@
+\begin{table}[h]
+\centering
+\caption{ST-GNN Rollout Metric Comparison (Averaged Over 142 Steps)}
+\label{tab:stgnn_comparison}
+\begin{tabular}{lcccccc}
+\toprule
+\textbf{Model} & \textbf{Mean $P$-RMSE (bar)} & \textbf{Final $P$-RMSE (bar)} & \textbf{Mean $S_g$-RMSE} & \textbf{Final $S_g$-RMSE} & \textbf{Max $P$-Error (bar)} & \textbf{Max $S_g$-Error} \\
+\midrule
+\textbf{ST-GNN v1} & 35.2638 & 49.2455 & 0.016717 & 0.016476 & 278.29 & 0.3960 \\
+\textbf{ST-GNN v2} & 31.7239 & 33.6702 & 0.022283 & 0.029837 & 240.64 & 0.4041 \\
+\textbf{ST-GNN v3 (sweep)} & 25.4943 & 38.6918 & 0.021778 & 0.029570 & -- & -- \\
+\bottomrule
+\end{tabular}
+\end{table}

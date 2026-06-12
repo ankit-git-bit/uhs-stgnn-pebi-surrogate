@@ -1,0 +1,64 @@
+\documentclass[10pt,twocolumn]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+% \usepackage{cite}           % Commented out to resolve package conflict with natbib in Overleaf
+\usepackage{authblk}
+
+% --- Essential Packages Added for Typesetting and Layout Stability ---
+\usepackage{microtype}        % Improves character spacing and reduces overfull box warnings
+\usepackage{bm}               % Bold math support (vectors/tensors)
+\usepackage{xcolor}           % Colors for highlights and links
+\usepackage{float}            % Tight floating control [H]
+\usepackage{tabularx}         % Self-adjusting table column widths
+\usepackage{caption}          % Caption styling and control
+\usepackage{url}              % Clean URL breaks
+\usepackage{subcaption}       % Subfigure support for multi-panel layouts
+
+
+\geometry{margin=0.75in, top=0.85in, bottom=0.85in}
+
+\title{\textbf{Spatio-Temporal Graph Neural Networks for Underground Hydrogen Storage Forecasting on Irregular PEBI Meshes}}
+
+\author{\textbf{Anonymous Authors}}
+\affil{Anonymous Institution}
+\date{}
+
+% --- Template for Final Camera-Ready Author Block ---
+% \author[1]{\textbf{KTU Internship Project Team}}
+% \affil[1]{Department of Scientific Computing \& Machine Learning}
+% \date{}
+
+\begin{document}
+\maketitle
+
+\input{sections/abstract}
+\input{sections/introduction}
+\input{sections/physics}
+\input{sections/dataset}
+\input{sections/baseline_models}
+\input{sections/pressure_change}
+\input{sections/feature_engineering}
+\input{sections/graph_surrogate}
+\input{sections/stgnn}
+\input{sections/rollout_results}
+\input{sections/discussion}
+\input{sections/practical_implications}
+\input{sections/limitations}
+\input{sections/conclusions}
+
+\clearpage
+\appendix
+\input{supplementary/nomenclature}
+\input{supplementary/hyperparameters}
+\input{supplementary/reproducibility}
+
+\small
+\bibliographystyle{ieeetr}
+\bibliography{references}
+
+\end{document}

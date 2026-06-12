@@ -1,0 +1,13 @@
+cff-version: 1.2.0
+message: "If you use this software or checkpoints, please cite it as below."
+authors:
+  - family-names: "Kumar"
+    given-names: "Ankit"
+  - family-names: "Lal"
+    given-names: "Shankar"
+  - family-names: "Pal"
+    given-names: "Mayur"
+title: "Spatio-Temporal Graph Neural Networks for Underground Hydrogen Storage Forecasting on Irregular PEBI Meshes"
+version: 1.0.0
+date-released: 2026-06-12
+repository-code: "https://github.com/academic-research/uhs-stgnn"

@@ -1,0 +1,32 @@
+\section{Background and Governing Physics}
+Multi-phase fluid flow in porous media is governed by mass conservation principles coupled with Darcy's law. For a two-phase water-gas (hydrogen) system, the mass conservation equation for each fluid phase $\beta \in \{w, g\}$ is expressed as:
+\begin{equation}
+\label{eq:mass_cons}
+\nabla \cdot \left[ \frac{\mathbf{k} k_{r\beta}}{\mu_\beta B_\beta} (\nabla P_\beta - \rho_\beta g \nabla Z) \right] + q_\beta = \frac{\partial}{\partial t} \left( \frac{\phi S_\beta}{B_\beta} \right)
+\end{equation}
+where $\mathbf{k}$ is the absolute permeability tensor, $k_{r\beta}$ is the relative permeability of phase $\beta$, $\mu_\beta$ represents the phase dynamic viscosity, $B_\beta$ is the phase formation volume factor, $P_\beta$ is the phase pressure, $\rho_\beta$ is the fluid phase density, $g$ is the gravitational acceleration vector, $Z$ is the elevation, $\phi$ is the porosity, $S_\beta$ is the phase saturation, and $q_\beta$ represents the volumetric source/sink term (well injection or production rates). The phase saturations are constrained by the closure relation:
+\begin{equation}
+\label{eq:saturation_constraint}
+S_w + S_g = 1
+\end{equation}
+In a compressible, single-phase equivalent system with total compressibility $c_t$, Eq.~\ref{eq:mass_cons} reduces to the transient pressure diffusion equation:
+\begin{equation}
+\label{eq:diffusion}
+\phi c_t \frac{\partial P}{\partial t} = \nabla \cdot \left( \frac{\mathbf{k}}{\mu} \nabla P \right) + q
+\end{equation}
+Equation~\ref{eq:diffusion} serves as the mathematical foundation for the pressure-change surrogates developed in this work.
+
+\subsection{Finite Volume Discretization on PEBI Meshes}
+Reservoir simulators solve Eq.~\ref{eq:diffusion} by integrating it over each control volume (grid cell) of volume $V_i$ using the Finite Volume Method (FVM). Integrating Eq.~\ref{eq:diffusion} over an irregular cell $i$ yields the semi-discrete ordinary differential equation:
+\begin{equation}
+\label{eq:fvm}
+V_i \phi_i c_{t,i} \frac{d P_i}{d t} = \sum_{j \in N(i)} T_{ij} (P_j - P_i) + Q_i
+\end{equation}
+where $N(i)$ represents the set of face-adjacent neighbors of cell $i$, and $Q_i$ is the volumetric well term. Under the two-point flux approximation (TPFA) scheme, which is standard for orthogonal Perpendicular Bisection (PEBI) meshes, the inter-cell transmissibility $T_{ij}$ is defined as~\cite{ahmed2015mpfa, pal2006tensor}:
+\begin{equation}
+\label{eq:trans}
+T_{ij} = A_{ij} \frac{2 k_i k_j}{\mu (k_i d_j + k_j d_i)}
+\end{equation}
+where $A_{ij}$ is the contact area of the shared boundary face, and $d_i, d_j$ are the distances from the cell centroids of cells $i$ and $j$ to the interface, respectively. 
+
+As shown in Eq.~\ref{eq:fvm}, the transient pressure evolution at cell $i$ is a function of the cell-local properties, its temporal derivative, and the pressure gradients of its neighbors weighted by inter-cell transmissibility. This mathematical structure motivates the pressure-change surrogate formulation and the transmissibility-weighted Graph Convolutional Network layers developed in subsequent sections.

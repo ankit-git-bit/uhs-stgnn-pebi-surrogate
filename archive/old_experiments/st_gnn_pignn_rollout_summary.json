@@ -1,0 +1,10 @@
+{
+  "case": "Case_0005_wj.mat",
+  "rollout_steps": 142,
+  "final_pressure_rmse": 99.39974975585938,
+  "final_saturation_rmse": 0.01853427104651928,
+  "mean_pressure_rmse_over_rollout": 59.370850838405985,
+  "mean_saturation_rmse_over_rollout": 0.018575751639141793,
+  "max_pressure_error": 116.86872863769531,
+  "max_saturation_error": 0.3893228769302368
+}

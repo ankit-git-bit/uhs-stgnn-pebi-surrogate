@@ -1,0 +1,15 @@
+\section{Conclusions}
+This study presented a systematic evaluation of data-driven and graph-based surrogates for pressure and saturation forecasting in Underground Hydrogen Storage (UHS) reservoirs discretized on irregular PEBI meshes. The main conclusions are summarized as follows:
+\begin{itemize}
+    \item Direct next-step absolute pressure prediction ($P_{t+1}$) represents a deceptive baseline that masks model capability due to strong temporal autocorrelation. Emulators must target pressure-change ($\Delta P$) to force the learning of physical derivatives.
+    \item Cell-wise pressure evolution exhibits strong temporal inertia. Integrating temporal lags ($\Delta P_{t-1}$) allows local models to capture transient decay, explaining 64.65\% of Gini importance. The Random Forest result ($R^2 = 0.9827$, $\text{RMSE} = 0.5487$~bar) corresponds to a one-step teacher-forced prediction task and should not be interpreted as long-horizon forecasting performance.
+    \item Structured-grid projections introduce significant spatial truncation errors near wellbores (RMSE up to 11.42~bar) and can lead to silent grid factorization failures in preprocessing pipelines. Native graph representations avoid these projection errors by preserving irregular mesh adjacencies.
+    \item The ST-GNN architecture maps inter-cell transmissibilities directly to edge weights, mirroring Finite Volume updates. Training the architecture using the sweep-optimized multi-objective loss and a scheduled sampling curriculum (ST-GNN v3) reduces the final-step rollout pressure RMSE by 35.70\% (to 31.66~bar) and the mean rollout pressure RMSE by 23.01\% (to 27.15~bar) compared to the baseline v1 (49.25~bar final, 35.26~bar mean).
+\end{itemize}
+
+Future research should focus on:
+\begin{enumerate}
+    \item Expanding the simulation database to 50--100 cases to incorporate geostatistical and operational schedule diversity, enabling true generalizability.
+    \item Incorporating hard physical conservation laws or physics-informed loss constraints (such as residual PDE loss) to mitigate long-horizon rollout drift.
+    \item Conducting formal benchmarks against operator learning methods (FNO, DeepONet) on unstructured PEBI grids using conformal mesh parameterizations.
+\end{enumerate}

@@ -1,0 +1,28 @@
+\begin{table}[h]
+\centering
+\caption{Model Performance Across Engineered Feature Sets on Test Set (Case 5)}
+\label{tab:feature_results}
+\begin{tabular}{llccc}
+\toprule
+\textbf{Feature Set} & \textbf{Model} & \textbf{RMSE (bar)} & \textbf{MAE (bar)} & \textbf{$R^2$} \\
+\midrule
+\textbf{Baseline (9 features)} 
+ & Linear Regression & 3.5440 & 1.3581 & 0.2801 \\
+ & Ridge Regression & 3.5273 & 1.3275 & 0.2869 \\
+ & Random Forest & 4.5388 & 0.8151 & -0.1808 \\
+ & MLP (128-64) & 3.1970 & 0.8589 & 0.4142 \\
+\midrule
+\textbf{Spatial (19 features)} 
+ & Linear Regression & 3.5440 & 1.3581 & 0.2801 \\
+ & Ridge Regression & 3.5273 & 1.3275 & 0.2869 \\
+ & Random Forest & 4.5391 & 0.8166 & -0.1809 \\
+ & MLP (128-64) & 3.2307 & 0.9170 & 0.4018 \\
+\midrule
+\textbf{Spatiotemporal (25 features)} 
+ & Linear Regression & 3.6718 & 0.9898 & 0.2272 \\
+ & Ridge Regression & 3.6713 & 0.9866 & 0.2275 \\
+ & \textbf{Random Forest} & \textbf{0.5487} & \textbf{0.0941} & \textbf{0.9827} \\
+ & \textbf{MLP (128-64)} & \textbf{0.9063} & \textbf{0.3557} & \textbf{0.9529} \\
+\bottomrule
+\end{tabular}
+\end{table}

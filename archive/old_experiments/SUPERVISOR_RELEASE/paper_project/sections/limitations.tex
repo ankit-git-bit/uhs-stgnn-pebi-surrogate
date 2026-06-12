@@ -1,0 +1,13 @@
+\section{Limitations}
+We enumerate the principal limitations of this study for the benefit of reviewers and practitioners considering the adoption of GNN-based emulators:
+\begin{enumerate}
+    \item \textbf{Restricted Dataset Size}: The training and validation set comprises only five simulation cases, which is highly restricted for machine learning applications. While this is sufficient for evaluating baseline emulators on a temporal split, it provides no information on how the model generalizes to a broader ensemble of cases.
+    \item \textbf{Single Geological Model Template}: All five cases are generated from a single geological model template. The surrogate is not exposed to alternative geological structures, fault patterns, or reservoir structural styles.
+    \item \textbf{Static Well Locations}: The injector and producer well centroids are identical across all cases. Extrapolation to new well placements is not possible without including well coordinates as dynamic features and training on a dataset with varied well positions.
+    \item \textbf{Constant Mesh Topology}: The GNN operates on a fixed 10,116-cell PEBI mesh. While the GNN architecture can handle arbitrary graphs, the current model has not been tested on alternative grid layouts or different cell counts, meaning that mesh-independent learning is not demonstrated.
+    \item \textbf{No Unseen Permeability Realizations}: The test set (Case 5) utilizes a permeability realization drawn from the same geostatistical model (variogram range, anisotropy) as the training cases. The model has not been tested on permeability fields with different correlation lengths or structural orientations.
+    \item \textbf{Absence of FNO Benchmark}: The study does not compare the GNN surrogate against the Fourier Neural Operator (FNO)~\cite{li2020fno}. Consequently, no comparative claims regarding the performance of graph convolutions versus Fourier-space operators can be made.
+    \item \textbf{Absence of DeepONet Benchmark}: No benchmark was conducted against operator learning methods like DeepONet~\cite{lu2021deeponet}.
+    \item \textbf{Lack of Physics-Informed Constraints}: The model is trained purely on data-driven MSE losses (Eq.~\ref{eq:loss}) and does not incorporate physics-informed loss terms (such as residual PDE loss or PINN-style penalties~\cite{raissi2019pinn}) or hard mass-conservation layers.
+    \item \textbf{Unresolved Long-Horizon Error Drift}: Pressure RMSE grows to a peak of 59.19~bar at step 50. This rollout drift remains unresolved, rendering the surrogate unsuitable for applications requiring precise long-term transient pressure tracking.
+\end{enumerate}

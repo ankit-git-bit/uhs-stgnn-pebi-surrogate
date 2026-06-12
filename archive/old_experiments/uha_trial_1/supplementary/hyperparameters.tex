@@ -1,0 +1,38 @@
+\section{Model Hyperparameters}
+\label{sec:hyperparameters}
+
+The hyperparameters for the machine learning and deep learning architectures evaluated in this study are detailed below:
+
+\begin{description}
+    \item[Baseline MLP (128-64)]
+    \begin{itemize}
+        \item Architecture: Input layer $\to$ Dense(128) $\to$ LeakyReLU(0.1) $\to$ Dense(64) $\to$ LeakyReLU(0.1) $\to$ Output(1)
+        \item Optimizer: Adam ($\beta_1 = 0.9, \beta_2 = 0.999$, learning rate = $10^{-3}$)
+        \item Loss Function: Mean Squared Error (MSE) on normalized targets
+        \item Batch Size: 4096 cells
+        \item Training Epochs: 50
+    \end{itemize}
+
+    \item[Spatiotemporal Random Forest]
+    \begin{itemize}
+        \item Number of Trees: 100
+        \item Maximum Depth: Unlimited (nodes expanded until all leaves are pure or contain less than 2 samples)
+        \item Split Criterion: Mean Squared Error (MSE)
+        \item Min Samples Split: 2
+        \item Min Samples Leaf: 1
+    \end{itemize}
+
+    \item[Spatio-Temporal GNN (ST-GNN v2)]
+    \begin{itemize}
+        \item Message Passing Layers: 4 DarcyGraphConvResidual layers
+        \item Hidden Dimension ($d_h$): 128 features
+        \item Recurrent Cell: Gated Recurrent Unit (GRU) with hidden size 128
+        \item Decoder: Dense(128) $\to$ LeakyReLU(0.1) $\to$ Dropout(0.05) $\to$ Dense(64) $\to$ LeakyReLU(0.1) $\to$ Dense(2)
+        \item Optimizer: Adam (initial learning rate = $10^{-3}$, weight decay = $10^{-5}$)
+        \item Learning Rate Scheduler: Cosine annealing over total epochs
+        \item Scheduled Sampling: Linear probability ramp $p_{\text{rollout}} : 0.0 \to 0.5$
+        \item Normalization: LayerNorm applied after GCN aggregation and skip addition
+        \item Training Epochs: 30
+        \item Batch Size: 1 full case per batch (10,116 nodes)
+    \end{itemize}
+\end{description}

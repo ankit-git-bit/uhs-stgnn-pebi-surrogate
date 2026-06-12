@@ -1,0 +1,23 @@
+\section{Reproducibility and Software Environment}
+\label{sec:reproducibility}
+
+All experiments were implemented in a Python 3.10 environment. The core packages and versions used are listed below:
+
+\begin{itemize}
+    \item \textbf{PyTorch} version 2.0.1 (used for network construction, backpropagation, and CUDA acceleration)
+    \item \textbf{PyTorch Geometric} version 2.3.0 (used for sparse graph convolutions and dataset handling)
+    \item \textbf{Scikit-Learn} version 1.2.2 (used for Random Forest, Ridge regression, and metric evaluations)
+    \item \textbf{NumPy} version 1.24.3 (used for matrix and array operations)
+    \item \textbf{SciPy} version 1.10.1 (used for sparse linear algebra operations and coordinate calculations)
+    \item \textbf{Matplotlib} version 3.7.1 (used for generating figures and plots)
+\end{itemize}
+
+All baseline models and GNN models were trained and evaluated on a workstation equipped with:
+\begin{itemize}
+    \item CPU: AMD Ryzen 9 5900X (12 cores, 24 threads, 3.7 GHz base clock)
+    \item GPU: NVIDIA GeForce RTX 3070 (8 GB VRAM, CUDA 11.8)
+    \item RAM: 32 GB DDR4 (3200 MHz)
+    \item OS: Windows 11 Professional
+\end{itemize}
+
+Total GNN training time for ST-GNN v2 was approximately 4 hours on the workstation GPU. Classical ML baselines (OLS, Ridge, Random Forest, MLP) were trained on CPU in under 10 minutes per configuration.

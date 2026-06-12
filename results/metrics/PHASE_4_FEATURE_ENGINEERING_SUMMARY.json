@@ -1,0 +1,481 @@
+{
+  "feature_sets": {
+    "baseline": {
+      "description": "Cell-local static features only (Phase 3)",
+      "n_features": 9,
+      "features": [
+        "Perm_initial",
+        "Poro_initial",
+        "P(t)",
+        "inj_BHP",
+        "prod_BHP",
+        "inj_H2",
+        "prod_H2",
+        "inj_status",
+        "prod_status"
+      ]
+    },
+    "spatial": {
+      "description": "Baseline + spatial geometry and pressure gradients",
+      "n_features": 19,
+      "features": [
+        "Perm_initial",
+        "Poro_initial",
+        "P(t)",
+        "inj_BHP",
+        "prod_BHP",
+        "inj_H2",
+        "prod_H2",
+        "inj_status",
+        "prod_status",
+        "X_coord",
+        "Z_coord",
+        "dist_to_injector",
+        "dist_to_producer",
+        "perm_grad_magnitude",
+        "P_grad_X",
+        "P_grad_Z",
+        "P_grad_magnitude",
+        "neighbor_P_avg",
+        "neighbor_Perm_avg"
+      ]
+    },
+    "spatiotemporal": {
+      "description": "Spatial + temporal history and time markers",
+      "n_features": 25,
+      "features": [
+        "Perm_initial",
+        "Poro_initial",
+        "P(t)",
+        "inj_BHP",
+        "prod_BHP",
+        "inj_H2",
+        "prod_H2",
+        "inj_status",
+        "prod_status",
+        "X_coord",
+        "Z_coord",
+        "dist_to_injector",
+        "dist_to_producer",
+        "perm_grad_magnitude",
+        "P_grad_X",
+        "P_grad_Z",
+        "P_grad_magnitude",
+        "neighbor_P_avg",
+        "neighbor_Perm_avg",
+        "delta_P_t_minus_1",
+        "delta_P_t_minus_2",
+        "rolling_delta_P_avg_3",
+        "time_since_inj_start",
+        "time_since_prod_start",
+        "phase_change_indicator"
+      ]
+    }
+  },
+  "model_performance": {
+    "baseline": {
+      "linear": {
+        "rmse": 3.544016084991877,
+        "mae": 1.3581310510635376,
+        "r2": 0.28010767698287964,
+        "relative_error": 482.0536193847656
+      },
+      "ridge": {
+        "rmse": 3.5273096837017768,
+        "mae": 1.3275011777877808,
+        "r2": 0.286878764629364,
+        "relative_error": 481.2377014160156
+      },
+      "random_forest": {
+        "rmse": 4.538831175465062,
+        "mae": 0.8151278226519795,
+        "r2": -0.18076695219872385,
+        "relative_error": 5.244308704403316
+      },
+      "mlp": {
+        "rmse": 3.19702938001662,
+        "mae": 0.858855664730072,
+        "r2": 0.4141729474067688,
+        "relative_error": 41.355289459228516
+      }
+    },
+    "spatial": {
+      "linear": {
+        "rmse": 3.544009357629482,
+        "mae": 1.3581408262252808,
+        "r2": 0.2801104187965393,
+        "relative_error": 482.04364013671875
+      },
+      "ridge": {
+        "rmse": 3.527309954070518,
+        "mae": 1.3275095224380493,
+        "r2": 0.28687864542007446,
+        "relative_error": 481.2329406738281
+      },
+      "random_forest": {
+        "rmse": 4.539053486692724,
+        "mae": 0.8165839387479293,
+        "r2": -0.18088262258571453,
+        "relative_error": 5.251839811227424
+      },
+      "mlp": {
+        "rmse": 3.2306889709172935,
+        "mae": 0.9170339703559875,
+        "r2": 0.4017723798751831,
+        "relative_error": 36.62465286254883
+      }
+    },
+    "spatiotemporal": {
+      "linear": {
+        "rmse": 3.6718487677753133,
+        "mae": 0.9897943139076233,
+        "r2": 0.2272379994392395,
+        "relative_error": 294.7296142578125
+      },
+      "ridge": {
+        "rmse": 3.6713029131714574,
+        "mae": 0.9866381287574768,
+        "r2": 0.22746771574020386,
+        "relative_error": 294.45989990234375
+      },
+      "random_forest": {
+        "rmse": 0.548664381647897,
+        "mae": 0.09410103366264289,
+        "r2": 0.982746005075609,
+        "relative_error": 1.626034609948182
+      },
+      "mlp": {
+        "rmse": 0.9062748938462849,
+        "mae": 0.35574981570243835,
+        "r2": 0.952924370765686,
+        "relative_error": 58.94091033935547
+      }
+    }
+  },
+  "feature_importance_rankings": {
+    "baseline": [
+      {
+        "rank": 1,
+        "feature": "P(t)",
+        "importance": 0.5083128273613081,
+        "cumulative": 0.5083128273613081
+      },
+      {
+        "rank": 2,
+        "feature": "Perm_initial",
+        "importance": 0.18673713301202322,
+        "cumulative": 0.6950499603733313
+      },
+      {
+        "rank": 3,
+        "feature": "inj_status",
+        "importance": 0.10070458800552365,
+        "cumulative": 0.795754548378855
+      },
+      {
+        "rank": 4,
+        "feature": "inj_H2",
+        "importance": 0.0836554947324036,
+        "cumulative": 0.8794100431112586
+      },
+      {
+        "rank": 5,
+        "feature": "prod_BHP",
+        "importance": 0.06443162368271396,
+        "cumulative": 0.9438416667939725
+      },
+      {
+        "rank": 6,
+        "feature": "prod_H2",
+        "importance": 0.02768520788239185,
+        "cumulative": 0.9715268746763643
+      },
+      {
+        "rank": 7,
+        "feature": "inj_BHP",
+        "importance": 0.02275581562239088,
+        "cumulative": 0.9942826902987553
+      },
+      {
+        "rank": 8,
+        "feature": "Poro_initial",
+        "importance": 0.005677224972526578,
+        "cumulative": 0.9999599152712818
+      },
+      {
+        "rank": 9,
+        "feature": "prod_status",
+        "importance": 4.0084728718128264e-05,
+        "cumulative": 0.9999999999999999
+      }
+    ],
+    "spatial": [
+      {
+        "rank": 1,
+        "feature": "P(t)",
+        "importance": 0.29903271891569183,
+        "cumulative": 0.29903271891569183
+      },
+      {
+        "rank": 2,
+        "feature": "neighbor_P_avg",
+        "importance": 0.22194059324842397,
+        "cumulative": 0.5209733121641158
+      },
+      {
+        "rank": 3,
+        "feature": "Perm_initial",
+        "importance": 0.10166866802786925,
+        "cumulative": 0.622641980191985
+      },
+      {
+        "rank": 4,
+        "feature": "inj_H2",
+        "importance": 0.09235420924779339,
+        "cumulative": 0.7149961894397784
+      },
+      {
+        "rank": 5,
+        "feature": "inj_status",
+        "importance": 0.09195011769958683,
+        "cumulative": 0.8069463071393652
+      },
+      {
+        "rank": 6,
+        "feature": "neighbor_Perm_avg",
+        "importance": 0.07875745374294288,
+        "cumulative": 0.8857037608823081
+      },
+      {
+        "rank": 7,
+        "feature": "prod_BHP",
+        "importance": 0.06424826365613866,
+        "cumulative": 0.9499520245384467
+      },
+      {
+        "rank": 8,
+        "feature": "prod_H2",
+        "importance": 0.03120466504576374,
+        "cumulative": 0.9811566895842105
+      },
+      {
+        "rank": 9,
+        "feature": "inj_BHP",
+        "importance": 0.01875073693655913,
+        "cumulative": 0.9999074265207697
+      },
+      {
+        "rank": 10,
+        "feature": "prod_status",
+        "importance": 7.295941094193989e-05,
+        "cumulative": 0.9999803859317117
+      },
+      {
+        "rank": 11,
+        "feature": "Poro_initial",
+        "importance": 1.961406828840801e-05,
+        "cumulative": 1.0
+      },
+      {
+        "rank": 12,
+        "feature": "P_grad_magnitude",
+        "importance": 0.0,
+        "cumulative": 1.0
+      },
+      {
+        "rank": 13,
+        "feature": "X_coord",
+        "importance": 0.0,
+        "cumulative": 1.0
+      },
+      {
+        "rank": 14,
+        "feature": "dist_to_injector",
+        "importance": 0.0,
+        "cumulative": 1.0
+      },
+      {
+        "rank": 15,
+        "feature": "Z_coord",
+        "importance": 0.0,
+        "cumulative": 1.0
+      },
+      {
+        "rank": 16,
+        "feature": "P_grad_X",
+        "importance": 0.0,
+        "cumulative": 1.0
+      },
+      {
+        "rank": 17,
+        "feature": "perm_grad_magnitude",
+        "importance": 0.0,
+        "cumulative": 1.0
+      },
+      {
+        "rank": 18,
+        "feature": "P_grad_Z",
+        "importance": 0.0,
+        "cumulative": 1.0
+      },
+      {
+        "rank": 19,
+        "feature": "dist_to_producer",
+        "importance": 0.0,
+        "cumulative": 1.0
+      }
+    ],
+    "spatiotemporal": [
+      {
+        "rank": 1,
+        "feature": "delta_P_t_minus_1",
+        "importance": 0.6464755007070637,
+        "cumulative": 0.6464755007070637
+      },
+      {
+        "rank": 2,
+        "feature": "time_since_inj_start",
+        "importance": 0.24582165173707726,
+        "cumulative": 0.892297152444141
+      },
+      {
+        "rank": 3,
+        "feature": "P(t)",
+        "importance": 0.041677803808672524,
+        "cumulative": 0.9339749562528135
+      },
+      {
+        "rank": 4,
+        "feature": "neighbor_P_avg",
+        "importance": 0.03125294607371851,
+        "cumulative": 0.965227902326532
+      },
+      {
+        "rank": 5,
+        "feature": "delta_P_t_minus_2",
+        "importance": 0.023173771500213495,
+        "cumulative": 0.9884016738267455
+      },
+      {
+        "rank": 6,
+        "feature": "rolling_delta_P_avg_3",
+        "importance": 0.005208634789067312,
+        "cumulative": 0.9936103086158128
+      },
+      {
+        "rank": 7,
+        "feature": "prod_H2",
+        "importance": 0.0018100045844961867,
+        "cumulative": 0.995420313200309
+      },
+      {
+        "rank": 8,
+        "feature": "inj_BHP",
+        "importance": 0.0012597952998198345,
+        "cumulative": 0.9966801085001288
+      },
+      {
+        "rank": 9,
+        "feature": "phase_change_indicator",
+        "importance": 0.0010523653844034147,
+        "cumulative": 0.9977324738845322
+      },
+      {
+        "rank": 10,
+        "feature": "neighbor_Perm_avg",
+        "importance": 0.0005631069621512728,
+        "cumulative": 0.9982955808466835
+      },
+      {
+        "rank": 11,
+        "feature": "time_since_prod_start",
+        "importance": 0.0005576649546169517,
+        "cumulative": 0.9988532458013004
+      },
+      {
+        "rank": 12,
+        "feature": "Perm_initial",
+        "importance": 0.0005199654858200459,
+        "cumulative": 0.9993732112871204
+      },
+      {
+        "rank": 13,
+        "feature": "prod_BHP",
+        "importance": 0.0005050694029805887,
+        "cumulative": 0.999878280690101
+      },
+      {
+        "rank": 14,
+        "feature": "inj_H2",
+        "importance": 6.809448461625277e-05,
+        "cumulative": 0.9999463751747172
+      },
+      {
+        "rank": 15,
+        "feature": "prod_status",
+        "importance": 5.2370774680042725e-05,
+        "cumulative": 0.9999987459493972
+      },
+      {
+        "rank": 16,
+        "feature": "inj_status",
+        "importance": 9.381446571371624e-07,
+        "cumulative": 0.9999996840940545
+      },
+      {
+        "rank": 17,
+        "feature": "Poro_initial",
+        "importance": 3.159059456344801e-07,
+        "cumulative": 1.0000000000000002
+      },
+      {
+        "rank": 18,
+        "feature": "P_grad_magnitude",
+        "importance": 0.0,
+        "cumulative": 1.0000000000000002
+      },
+      {
+        "rank": 19,
+        "feature": "X_coord",
+        "importance": 0.0,
+        "cumulative": 1.0000000000000002
+      },
+      {
+        "rank": 20,
+        "feature": "dist_to_injector",
+        "importance": 0.0,
+        "cumulative": 1.0000000000000002
+      },
+      {
+        "rank": 21,
+        "feature": "Z_coord",
+        "importance": 0.0,
+        "cumulative": 1.0000000000000002
+      },
+      {
+        "rank": 22,
+        "feature": "P_grad_X",
+        "importance": 0.0,
+        "cumulative": 1.0000000000000002
+      },
+      {
+        "rank": 23,
+        "feature": "perm_grad_magnitude",
+        "importance": 0.0,
+        "cumulative": 1.0000000000000002
+      },
+      {
+        "rank": 24,
+        "feature": "P_grad_Z",
+        "importance": 0.0,
+        "cumulative": 1.0
+      },
+      {
+        "rank": 25,
+        "feature": "dist_to_producer",
+        "importance": 0.0,
+        "cumulative": 1.0
+      }
+    ]
+  }
+}

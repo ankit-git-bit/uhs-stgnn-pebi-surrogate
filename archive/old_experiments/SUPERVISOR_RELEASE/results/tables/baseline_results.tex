@@ -1,0 +1,20 @@
+\begin{table}[h]
+\centering
+\caption{Baseline Model Performance Comparison on Test Set (Case 5)}
+\label{tab:baseline_results}
+\begin{tabular}{llcccc}
+\toprule
+\textbf{Target Formulation} & \textbf{Model} & \textbf{RMSE (bar)} & \textbf{MAE (bar)} & \textbf{Relative Error} & \textbf{$R^2$} \\
+\midrule
+\textbf{Direct Pressure ($P_{t+1}$)} 
+ & Persistence & 4.2180 & 2.0068 & 0.0198 & 0.9931 \\
+ & Linear Regression & 3.5266 & 1.3307 & 0.0114 & 0.9952 \\
+ & MLP (128-64) & 3.4227 & 1.2009 & 0.0119 & 0.9955 \\
+\midrule
+\textbf{Pressure Change ($\Delta P$)} 
+ & Persistence ($\Delta P = 0$) & 4.2180 & 3.5177 & 0.2043 & -0.0198 \\
+ & Linear Regression & 4.1756 & 3.4870 & 0.2030 & 0.0007 \\
+ & MLP (128-64) & 3.3614 & 2.5611 & 0.1535 & 0.3524 \\
+\bottomrule
+\end{tabular}
+\end{table}

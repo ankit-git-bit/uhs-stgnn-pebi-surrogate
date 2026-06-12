@@ -1,0 +1,20 @@
+\begin{table}[h]
+\centering
+\caption{Dataset Variable Normalization Parameters (Cases 1--4)}
+\label{tab:dataset_stats}
+\begin{tabular}{llcc}
+\toprule
+\textbf{Feature Name} & \textbf{Physical Meaning} & \textbf{Mean ($\mu_{\text{train}}$)} & \textbf{Std Dev ($\sigma_{\text{train}}$)} \\
+\midrule
+`Perm` & Absolute Permeability (mD) & 203.3158 & 209.8465 \\
+`Poro` & Rock Porosity (fraction) & 0.1076 & 0.0249 \\
+`P(t)` & Pressure at step $t$ (bar) & 120.7029 & 50.7625 \\
+`inj\_BHP` & Injection Well BHP (bar) & 122.6423 & 74.1365 \\
+`prod\_BHP` & Production Well BHP (bar) & 69.9383 & 49.0101 \\
+`inj\_H2` & Injection H$_2$ Rate (daily rate units) & 3.5269 & 4.1979 \\
+`prod\_H2` & Production H$_2$ Rate (daily rate units) & 2.2432 & 3.5813 \\
+`dt\_days` & Time step size (days) & 5.0000 & 0.0000 \\
+`t\_index` & Time step index (dimensionless) & 72.0000 & 41.8569 \\
+\bottomrule
+\end{tabular}
+\end{table}
