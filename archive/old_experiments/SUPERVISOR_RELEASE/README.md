@@ -73,7 +73,7 @@ project_root/
 │       └── st_gnn_v3_checkpoint.pt     # Trained weights for ST-GNN v3
 │
 ├── archive/                            # Legacy milestone reports and unused experiments (PIGNN)
-└── SUPERVISOR_RELEASE/                 # Clean, self-contained supervisor package (code, models, outputs)
+└── nutshell_RELEASE/                 # Clean, self-contained nutshell package (code, models, outputs)
 ```
 
 ---
